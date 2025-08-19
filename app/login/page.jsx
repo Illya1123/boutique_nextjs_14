@@ -15,7 +15,7 @@ export default function LoginPage() {
     if (session) return null
 
     return (
-        <main className="relative flex justify-center items-center min-h-[calc(100vh-182px)] bg-gray-900 overflow-hidden">
+        <main className="relative flex justify-center items-center min-h-[calc(100vh-194px)] bg-gray-900 overflow-hidden">
             <div className="absolute inset-0">
                 <img
                     src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

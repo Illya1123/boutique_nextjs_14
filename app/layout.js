@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" className={itim.className}>
             <body>
-                    <ClientProviders>{children}</ClientProviders>
+                <ClientProviders>{children}</ClientProviders>
             </body>
         </html>
     )

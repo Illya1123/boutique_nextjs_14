@@ -8,6 +8,10 @@ module.exports = {
     ],
     theme: {
         extend: {
+            screens: {
+                'custom2xl': '1500px',
+                'custom3xl': '1244px',
+            },
             fontFamily: {
                 itim: ['var(--font-itim)', 'sans-serif'],
                 geistSans: ['var(--font-geist-sans)', 'sans-serif'],

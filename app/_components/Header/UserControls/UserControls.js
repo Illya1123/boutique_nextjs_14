@@ -3,12 +3,14 @@ import CartControl from './CartControl'
 import LoginControl from './LoginControl'
 import WishControl from './WishControl'
 
-function UserControls({session}) {
+function UserControls({ session }) {
     return (
         <div className="flex space-x-3 justify-between gap-2 py-3 text-gray-800 dark:text-white">
-            <LoginControl session={session}/>
-            <CartControl />
-            <WishControl />
+            <LoginControl session={session} />
+            <div className="hidden custom2xl:flex space-x-2">
+                <CartControl />
+                <WishControl />
+            </div>
         </div>
     )
 }

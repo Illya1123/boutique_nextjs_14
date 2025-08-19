@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useDispatch } from 'react-redux'
 import { setUser, clearUser } from '@/store/userSlice'
-import Navigation from './Navigation/Navigation'
 import Logo from './Logo'
-import UserControls from './UserControls/UserControls'
+import HeaderBelow from './HeaderBelow'
 import SearchInput from './searching/Search'
 
 export default function Header() {
@@ -38,14 +37,11 @@ export default function Header() {
                 visible ? 'translate-y-0' : '-translate-y-full'
             }`}
         >
-            <div className="flex justify-center py-2">
+            <div className="flex justify-center">
                 <Logo name={process.env.NEXT_PUBLIC_BOUTIQUE_NAME} />
             </div>
-            <div className="flex justify-center items-center space-x-6 border-t border-gray-200 py-4">
-                <Navigation />
-                <UserControls session={session}/>
-                <SearchInput />
-            </div>
+            <div className="flex justify-center py-2"><SearchInput/></div>
+            <HeaderBelow session={session} />
         </header>
     )
 }

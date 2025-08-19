@@ -15,7 +15,7 @@ function SearchInput() {
                 placeholder="SEARCH"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 placeholder:text-gray-400 text-gray-700 bg-[#edebe9] rounded-xl"
+                className="pl-10 placeholder:text-gray-400 text-gray-700 bg-[#edebe9] rounded-xl h-10"
             />
         </div>
     )
