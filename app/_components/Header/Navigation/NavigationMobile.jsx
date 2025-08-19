@@ -24,7 +24,7 @@ function NavigationMobile() {
     return (
         <div className="relative lg:hidden w-full">
             <button
-                className="p-2 z-50 relative"
+                className="p-2 z-60 relative"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Toggle Menu"
             >
@@ -32,7 +32,7 @@ function NavigationMobile() {
             </button>
 
             <div
-                className={`absolute top-full left-0 w-full bg-white shadow-md overflow-hidden transition-all duration-300 z-40 ${
+                className={`absolute top-full left-0 w-full bg-white shadow-md overflow-hidden transition-all duration-300 z-60 ${
                     isOpen ? 'max-h-[80vh] visible opacity-100' : 'max-h-0 invisible opacity-0'
                 }`}
             >

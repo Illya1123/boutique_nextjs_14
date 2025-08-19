@@ -7,8 +7,8 @@ export default function HomePage() {
     return (
         <main>
             <HeroSection />
-            <FeaturesSection />
             <ProductsSection />
+            <FeaturesSection />
             <ContactSection />
         </main>
     )

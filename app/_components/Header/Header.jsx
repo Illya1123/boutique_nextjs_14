@@ -40,7 +40,9 @@ export default function Header() {
             <div className="flex justify-center">
                 <Logo name={process.env.NEXT_PUBLIC_BOUTIQUE_NAME} />
             </div>
-            <div className="flex justify-center py-2"><SearchInput/></div>
+            <div className="flex justify-center py-2">
+                <SearchInput />
+            </div>
             <HeaderBelow session={session} />
         </header>
     )
