@@ -3,140 +3,160 @@
         "id": 1,
         "title": "Áo thun nam basic",
         "price": 199000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "category": "quần áo",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 2,
-        "title": "Áo sơ mi nam trắng",
-        "price": 299000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Đồng hồ nam dây da",
+        "price": 1200000,
+        "category": "phụ kiện thời trang",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1600185368759-8d1f33a7b8e1?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 3,
-        "title": "Quần jean nam xanh",
-        "price": 399000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Túi xách nữ da thật",
+        "price": 850000,
+        "category": "túi xách",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368760-1234abcd?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 4,
-        "title": "Áo khoác bomber nam",
-        "price": 550000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Vòng cổ nữ vàng",
+        "price": 650000,
+        "category": "trang sức",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368761-5678efgh?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 5,
-        "title": "Áo hoodie unisex đen",
-        "price": 450000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Giày sneaker nam trắng",
+        "price": 550000,
+        "category": "giày dép",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1600185368762-90abijkl?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 6,
-        "title": "Quần short nam kaki",
-        "price": 280000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Áo hoodie nữ đen",
+        "price": 450000,
+        "category": "quần áo",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368763-abcdef12?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 7,
-        "title": "Áo polo nam",
-        "price": 320000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Thắt lưng nam da bò",
+        "price": 300000,
+        "category": "phụ kiện thời trang",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1600185368764-1234abcd?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 8,
-        "title": "Áo len nam cổ tròn",
-        "price": 380000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Giày cao gót nữ đỏ",
+        "price": 650000,
+        "category": "giày dép",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368765-5678efgh?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 9,
-        "title": "Quần tây nam slimfit",
-        "price": 480000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Nhẫn nam bạc",
+        "price": 250000,
+        "category": "trang sức",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1600185368766-90abijkl?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 10,
-        "title": "Áo gió nam thể thao",
-        "price": 600000,
-        "category": "men",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Túi xách nam da thật",
+        "price": 900000,
+        "category": "túi xách",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1600185368767-abcdef12?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 11,
-        "title": "Đầm nữ đỏ",
-        "price": 499000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Áo sơ mi nam trắng",
+        "price": 299000,
+        "category": "quần áo",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 12,
-        "title": "Áo thun nữ form rộng",
-        "price": 250000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Bông tai nữ ngọc trai",
+        "price": 320000,
+        "category": "trang sức",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368768-1234abcd?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 13,
-        "title": "Chân váy nữ caro",
-        "price": 350000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Áo len nữ cổ tròn",
+        "price": 380000,
+        "category": "quần áo",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368769-5678efgh?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 14,
-        "title": "Đầm maxi nữ trắng",
-        "price": 650000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Giày thể thao nữ",
+        "price": 500000,
+        "category": "giày dép",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368770-90abijkl?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 15,
-        "title": "Áo len nữ cổ cao",
-        "price": 420000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Thắt lưng nữ da thật",
+        "price": 350000,
+        "category": "phụ kiện thời trang",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368771-abcdef12?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 16,
-        "title": "Áo cardigan nữ",
-        "price": 390000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Áo khoác bomber nam",
+        "price": 550000,
+        "category": "quần áo",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 17,
-        "title": "Váy liền nữ hoa",
-        "price": 480000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Vòng tay nữ bạc",
+        "price": 220000,
+        "category": "trang sức",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368772-1234abcd?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 18,
-        "title": "Set đồ nữ công sở",
-        "price": 550000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Túi xách nữ mini",
+        "price": 450000,
+        "category": "túi xách",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368773-5678efgh?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 19,
-        "title": "Túi tote nữ",
-        "price": 320000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "title": "Giày lười nam da",
+        "price": 480000,
+        "category": "giày dép",
+        "sex": "nam",
+        "image": "https://images.unsplash.com/photo-1600185368774-90abijkl?q=80&w=687&auto=format&fit=crop"
     },
     {
         "id": 20,
-        "title": "Khăn choàng nữ",
+        "title": "Khăn choàng nữ len",
         "price": 280000,
-        "category": "women",
-        "image": "https://images.unsplash.com/photo-1579171931975-97962e46be2d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "category": "phụ kiện thời trang",
+        "sex": "nữ",
+        "image": "https://images.unsplash.com/photo-1600185368775-abcdef12?q=80&w=687&auto=format&fit=crop"
     }
 ]
