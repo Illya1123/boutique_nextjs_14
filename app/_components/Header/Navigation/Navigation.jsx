@@ -1,21 +1,11 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import navItems from '@/app/data/NavItem'
 
 function Navigation() {
     const pathname = usePathname() || '/'
-
-    const navItems = [
-        { id: 1, name: 'Home', path: '/home' },
-        { id: 2, name: 'About', path: '/about' },
-        { id: 3, name: 'Services', path: '/services' },
-        { id: 4, name: 'Shop', path: '/shop' },
-        { id: 5, name: 'Blog', path: '/blog' },
-        { id: 6, name: 'Portfolio', path: '/portfolio' },
-        { id: 7, name: 'Contact', path: '/contact' },
-        { id: 8, name: 'Faq', path: '/faq' },
-    ]
-
+    
     // chuẩn hóa pathname: bỏ trailing slash
     const cleanPathname = pathname.replace(/\/$/, '') || '/'
 

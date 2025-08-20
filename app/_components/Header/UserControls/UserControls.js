@@ -5,9 +5,9 @@ import WishControl from './WishControl'
 
 function UserControls({ session }) {
     return (
-        <div className="flex items-center gap-3 py-3 text-gray-800 dark:text-white">
+        <div className="flex space-x-3 justify-between gap-2 py-3 text-gray-800 dark:text-white">
             <LoginControl session={session} />
-            <div className="hidden custom2xl:flex items-center gap-2">
+            <div className="hidden custom2xl:flex space-x-2">
                 <CartControl />
                 <WishControl />
             </div>
