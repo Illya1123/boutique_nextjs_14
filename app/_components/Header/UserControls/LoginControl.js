@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { FaUserAlt } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function LoginControl() {
     const { data: session } = useSession()
@@ -12,12 +13,16 @@ export default function LoginControl() {
                     href="/account"
                     className="hover:text-accent-400 transition-colors flex items-center gap-4"
                 >
-                    <img
+                    {/* <img
                         className="h-8 rounded-full"
                         src={session.user.image}
                         alt={session.user.name}
                         referrerPolicy="no-referrer"
-                    />
+                    /> */}
+                    <Avatar>
+                        <AvatarImage src={session.user.image} />
+                        <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
                     <span>{session.user.name}</span>
                 </Link>
             ) : (
