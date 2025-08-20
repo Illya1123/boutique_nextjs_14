@@ -1,8 +1,8 @@
 'use client'
 
 export default function FilterSidebar({
-    sexes,
-    categories,
+    sexes = [],
+    categories = [],
     sexFilter,
     setSexFilter,
     categoryFilter,
@@ -16,7 +16,7 @@ export default function FilterSidebar({
         <aside className="w-72 border-r p-6 bg-white shadow-sm sticky top-0 h-screen">
             <h2 className="text-lg font-bold mb-4 text-gray-800">Bộ lọc</h2>
 
-            {/* Lọc theo giới tính */}
+            {/* Giới tính */}
             <div className="mb-6">
                 <h3 className="font-semibold mb-2">Giới tính</h3>
                 <nav className="space-y-3">
@@ -40,13 +40,13 @@ export default function FilterSidebar({
                                     : 'hover:bg-blue-100 text-gray-700'
                             }`}
                         >
-                            {s.charAt(0).toUpperCase() + s.slice(1)}
+                            {s}
                         </button>
                     ))}
                 </nav>
             </div>
 
-            {/* Lọc theo category */}
+            {/* Category */}
             <div className="mb-6">
                 <h3 className="font-semibold mb-2">Danh mục</h3>
                 <nav className="space-y-3">
@@ -70,13 +70,13 @@ export default function FilterSidebar({
                                     : 'hover:bg-blue-100 text-gray-700'
                             }`}
                         >
-                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                            {cat}
                         </button>
                     ))}
                 </nav>
             </div>
 
-            {/* Lọc theo giá */}
+            {/* Giá */}
             <div>
                 <h3 className="font-semibold mb-2">Khoảng giá</h3>
                 <div className="space-y-4">

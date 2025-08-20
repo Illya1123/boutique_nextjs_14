@@ -7,13 +7,13 @@ import Link from 'next/link'
 import Pagination from '@/app/_components/Pagination'
 import { slugify } from '@/app/_utils/slugify'
 
-export default function ProductList({ products }) {
+export default function ProductList({ products = [] }) {
     const dispatch = useDispatch()
     const [currentPage, setCurrentPage] = useState(1)
     const productsPerPage = 10
 
     useEffect(() => {
-        if (products?.length > 0) {
+        if (products.length > 0) {
             dispatch(setProducts(products))
         }
     }, [products, dispatch])
@@ -30,7 +30,22 @@ export default function ProductList({ products }) {
         <div>
             <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {currentProducts.map((p) => {
-                    const slug = slugify(p.title)
+                    const slug = slugify(p.name)
+
+                    // Lấy hình chính của variant đầu tiên có ảnh primary
+                    let mainImage = ''
+                    if (p.variants?.length > 0) {
+                        const variantWithPrimary = p.variants.find(
+                            (v) => v.images?.some((img) => img.is_primary)
+                        )
+                        if (variantWithPrimary) {
+                            const primaryImg = variantWithPrimary.images.find((img) => img.is_primary)
+                            mainImage = primaryImg?.url || ''
+                        } else {
+                            mainImage = p.variants[0].images?.[0]?.url || ''
+                        }
+                    }
+
                     return (
                         <li
                             key={p.id}
@@ -41,19 +56,23 @@ export default function ProductList({ products }) {
                                 className="block"
                             >
                                 <div className="w-full h-48 flex items-center justify-center bg-gray-50 rounded-t-lg overflow-hidden">
-                                    <img
-                                        src={p.image}
-                                        alt={p.title}
-                                        className="max-h-40 object-contain"
-                                    />
+                                    {mainImage ? (
+                                        <img
+                                            src={mainImage}
+                                            alt={p.name}
+                                            className="max-h-40 object-contain"
+                                        />
+                                    ) : (
+                                        <div className="text-gray-400">No Image</div>
+                                    )}
                                 </div>
 
                                 <div className="p-4">
                                     <h3 className="text-sm font-medium text-gray-800 line-clamp-2 min-h-[40px]">
-                                        {p.title}
+                                        {p.name}
                                     </h3>
                                     <p className="mt-2 text-lg font-bold text-red-600">
-                                        {p.price.toLocaleString()}đ
+                                        {parseInt(p.price).toLocaleString()}đ
                                     </p>
                                     <button className="mt-3 w-full py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                                         Thêm vào giỏ

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 import SidebarFilter from './SidebarFilter'
 
 export default function ShopPage() {
@@ -15,10 +16,12 @@ export default function ShopPage() {
         const fetchProducts = async () => {
             try {
                 setLoading(true)
-                const res = await fetch('/data.json')
-                if (!res.ok) throw new Error('Failed to fetch')
-                const data = await res.json()
-                setProducts(data)
+                const res = await axios.get('/api/products')
+                if (res.data.success) {
+                    setProducts(res.data.products)
+                } else {
+                    setError(res.data.error || 'Không thể tải sản phẩm.')
+                }
             } catch (err) {
                 console.error(err)
                 setError('Không thể tải sản phẩm.')
