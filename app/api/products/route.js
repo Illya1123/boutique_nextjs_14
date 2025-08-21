@@ -63,7 +63,7 @@ export async function GET(req) {
         if (id) {
             // Lấy 1 sản phẩm theo id
             const product = await prisma.product.findUnique({
-                where: { id: parseInt(id) },
+                where: { id: id },
                 include: {
                     variants: {
                         include: {

@@ -9,26 +9,35 @@ import AppBreadcrumb from '@/app/_components/Breadcrumb'
 import ProductImages from './ProductImages'
 import ProductInfo from './ProductInfo'
 
-export default function ProductDetail({ params }) {
+export default function ProductDetail({ params, searchParams }) {
     const dispatch = useDispatch()
     const products = useSelector((state) => state.products.items)
+    const [product, setProduct] = useState(null)
     const [selectedVariant, setSelectedVariant] = useState(null)
 
     useEffect(() => {
-        if (!products || products.length === 0) {
-            const fetchProducts = async () => {
-                try {
-                    const res = await axios.get('/api/products')
-                    dispatch(setProducts(res.data.products || []))
-                } catch (error) {
-                    console.error('Lỗi khi lấy sản phẩm:', error)
+        const fetchProduct = async () => {
+            try {
+                if (!products || products.length === 0) {
+                    // nếu vào trực tiếp, gọi theo id từ query
+                    const res = await axios.get(`/api/products?id=${searchParams?.id}`)
+                    const prod = res.data?.product
+                    if (prod) {
+                        setProduct(prod)
+                        dispatch(setProducts([prod])) // lưu vào store để sau dùng lại
+                    }
+                } else {
+                    // nếu store đã có, tìm theo slug
+                    const prod = products.find((p) => slugify(p.name) === params.slug)
+                    if (prod) setProduct(prod)
                 }
+            } catch (error) {
+                console.error('Lỗi khi lấy sản phẩm:', error)
             }
-            fetchProducts()
         }
-    }, [products, dispatch])
 
-    const product = products.find((p) => slugify(p.name) === params.slug)
+        fetchProduct()
+    }, [products, params.slug, searchParams, dispatch])
 
     useEffect(() => {
         if (product && product.variants?.length > 0) {

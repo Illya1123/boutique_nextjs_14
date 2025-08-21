@@ -6,6 +6,7 @@ const nextConfig = {
         'http://192.168.31.228:3000',
         'http://192.168.31.41',
     ],
+    
     // crossOrigin: 'anonymous',
 }
 
