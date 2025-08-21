@@ -1,18 +1,45 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '@/store/cartSlice'
+import { v4 as uuidv4 } from 'uuid'
 
-export default function ProductInfo({ product, variant, setVariant }) {
+export default function ProductInfo({ product, variant, setVariant, defaultSize }) {
     const [selectedSize, setSelectedSize] = useState(null)
     const currentStock = variant?.sizes.find((s) => s.size === selectedSize)?.stock || 0
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (variant?.sizes?.length > 0) {
-            setSelectedSize(variant.sizes[0].size)
+            if (defaultSize && variant.sizes.some((s) => s.size === defaultSize)) {
+                setSelectedSize(defaultSize) // ưu tiên size từ query
+            } else {
+                setSelectedSize(variant.sizes[0].size) // mặc định
+            }
         }
-    }, [variant])
+    }, [variant, defaultSize])
 
     if (!product) return null
+
+    const handleAddToCart = () => {
+        if (!variant || !selectedSize) return
+
+        const cartItem = {
+            cartItemId: uuidv4(),
+            productId: product.id,
+            name: product.name,
+            price: parseInt(product.price),
+            variantId: variant.id,
+            color: variant.color,
+            size: selectedSize,
+            quantity: 1,
+            image: variant.images.find((img) => img.is_primary)?.url,
+        }
+
+        dispatch(addToCart(cartItem))
+        alert('Đã thêm vào giỏ hàng!')
+    }
 
     return (
         <div className="flex flex-col">
@@ -21,12 +48,7 @@ export default function ProductInfo({ product, variant, setVariant }) {
                 {parseInt(product.price).toLocaleString()}đ
             </p>
 
-            <p className="mt-6 text-gray-700 leading-relaxed">
-                {product.description ||
-                    'Một sản phẩm thời trang cao cấp, thiết kế tinh tế, chất liệu thoáng mát, phù hợp cho mọi dịp.'}
-            </p>
-
-            {/* Chọn size */}
+            {/* chọn size */}
             {variant?.sizes && (
                 <div className="mt-6">
                     <h3 className="text-sm font-medium text-gray-700 mb-2">Chọn size</h3>
@@ -46,7 +68,7 @@ export default function ProductInfo({ product, variant, setVariant }) {
                 </div>
             )}
 
-            {/* Chọn màu */}
+            {/* chọn màu */}
             {product.variants && (
                 <div className="mt-6">
                     <h3 className="text-sm font-medium text-gray-700 mb-2">Màu sắc</h3>
@@ -57,7 +79,9 @@ export default function ProductInfo({ product, variant, setVariant }) {
                                 className={`w-8 h-8 rounded-full border ${
                                     variant?.id === v.id ? 'ring-2 ring-blue-500' : ''
                                 }`}
-                                style={{ backgroundColor: v.color.toLowerCase().replace(' ', '') }}
+                                style={{
+                                    backgroundColor: v.color.toLowerCase().replace(/\s+/g, ''),
+                                }}
                                 onClick={() => setVariant(v)}
                             ></button>
                         ))}
@@ -65,16 +89,15 @@ export default function ProductInfo({ product, variant, setVariant }) {
                 </div>
             )}
 
-            {/* Stock */}
             <p className="mt-2 text-gray-600">
                 {currentStock > 0 ? `Còn ${currentStock} sản phẩm` : 'Hết hàng'}
             </p>
 
-            {/* Nút */}
             <div className="mt-8 flex gap-4">
                 <button
                     className="flex-1 py-3 bg-blue-600 text-white rounded-lg text-lg font-medium hover:bg-blue-700 transition"
                     disabled={currentStock === 0}
+                    onClick={handleAddToCart}
                 >
                     Thêm vào giỏ
                 </button>
