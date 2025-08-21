@@ -6,6 +6,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function LoginControl() {
     const { data: session } = useSession()
+
+    const getInitials = (name) => {
+        if (!name) return "?"
+        const parts = name.trim().split(" ")
+        if (parts.length === 1) {
+            return parts[0][0]?.toUpperCase() || "?"
+        }
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    }
+
     return (
         <div>
             {session?.user?.email ? (
@@ -13,15 +23,11 @@ export default function LoginControl() {
                     href="/account"
                     className="hover:text-accent-400 transition-colors flex items-center gap-4"
                 >
-                    {/* <img
-                        className="h-8 rounded-full"
-                        src={session.user.image}
-                        alt={session.user.name}
-                        referrerPolicy="no-referrer"
-                    /> */}
                     <Avatar>
                         <AvatarImage src={session.user.image} />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarFallback>
+                            {getInitials(session.user.name)}
+                        </AvatarFallback>
                     </Avatar>
                     <span>{session.user.name}</span>
                 </Link>
