@@ -35,16 +35,25 @@ export default function ProductList({ products = [] }) {
                     // Lấy hình chính của variant đầu tiên có ảnh primary
                     let mainImage = ''
                     if (p.variants?.length > 0) {
-                        const variantWithPrimary = p.variants.find(
-                            (v) => v.images?.some((img) => img.is_primary)
+                        const variantWithPrimary = p.variants.find((v) =>
+                            v.images?.some((img) => img.is_primary)
                         )
                         if (variantWithPrimary) {
-                            const primaryImg = variantWithPrimary.images.find((img) => img.is_primary)
+                            const primaryImg = variantWithPrimary.images.find(
+                                (img) => img.is_primary
+                            )
                             mainImage = primaryImg?.url || ''
                         } else {
                             mainImage = p.variants[0].images?.[0]?.url || ''
                         }
                     }
+
+                    // Lấy tất cả màu
+                    const colors = p.variants?.map((v) => v.color).join(', ') || '—'
+                    // Lấy tất cả size (loại trùng)
+                    const sizes = [
+                        ...new Set(p.variants?.flatMap((v) => v.sizes?.map((s) => s.size) || [])),
+                    ].join(', ')
 
                     return (
                         <li
@@ -71,12 +80,14 @@ export default function ProductList({ products = [] }) {
                                     <h3 className="text-sm font-medium text-gray-800 line-clamp-2 min-h-[40px]">
                                         {p.name}
                                     </h3>
+
+                                    {/* Thêm màu và size */}
+                                    <p className="mt-1 text-xs text-gray-500">Màu: {colors}</p>
+                                    <p className="text-xs text-gray-500">Size: {sizes}</p>
+
                                     <p className="mt-2 text-lg font-bold text-red-600">
                                         {parseInt(p.price).toLocaleString()}đ
                                     </p>
-                                    <button className="mt-3 w-full py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                                        Thêm vào giỏ
-                                    </button>
                                 </div>
                             </Link>
                         </li>

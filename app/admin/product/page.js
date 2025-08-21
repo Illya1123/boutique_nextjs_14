@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 
 export default function Product() {
     const [products, setProducts] = useState([])
+    const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
     const [showForm, setShowForm] = useState(false)
     const [newProduct, setNewProduct] = useState({
@@ -27,17 +28,26 @@ export default function Product() {
 
     useEffect(() => {
         fetchProducts()
+        fetchCategories()
     }, [])
 
     const fetchProducts = async () => {
         try {
             const res = await axios.get('/api/products')
             if (res.data.success) setProducts(res.data.products)
-            else console.error(res.data.error)
         } catch (error) {
             console.error(error)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get('/api/categories')
+            setCategories(res.data)
+        } catch (error) {
+            console.error(error)
         }
     }
 
@@ -48,9 +58,21 @@ export default function Product() {
         })
     }
 
+    const handleRemoveVariant = (vIndex) => {
+        const variants = [...newProduct.variants]
+        variants.splice(vIndex, 1)
+        setNewProduct({ ...newProduct, variants })
+    }
+
     const handleAddSize = (vIndex) => {
         const variants = [...newProduct.variants]
         variants[vIndex].sizes.push({ size: '', stock: 0 })
+        setNewProduct({ ...newProduct, variants })
+    }
+
+    const handleRemoveSize = (vIndex, sIndex) => {
+        const variants = [...newProduct.variants]
+        variants[vIndex].sizes.splice(sIndex, 1)
         setNewProduct({ ...newProduct, variants })
     }
 
@@ -78,7 +100,7 @@ export default function Product() {
                     category_id: '',
                     variants: [],
                 })
-            } else console.error(res.data.error)
+            }
         } catch (error) {
             console.error(error)
         }
@@ -89,7 +111,6 @@ export default function Product() {
         try {
             const res = await axios.delete(`/api/products?id=${id}`)
             if (res.data.success) setProducts(products.filter((p) => p.id !== id))
-            else console.error(res.data.error)
         } catch (error) {
             console.error(error)
         }
@@ -136,17 +157,24 @@ export default function Product() {
                                 setNewProduct({ ...newProduct, price: e.target.value })
                             }
                         />
-                        <input
-                            type="number"
-                            placeholder="Category ID"
+
+                        <select
                             className="border p-2 rounded w-full"
                             value={newProduct.category_id}
                             onChange={(e) =>
                                 setNewProduct({ ...newProduct, category_id: e.target.value })
                             }
-                        />
+                        >
+                            <option value="">-- Chọn category --</option>
+                            {categories.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                    {c.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
+                    {/* Variants */}
                     <div className="mb-4">
                         <h4 className="text-lg font-semibold mb-2">Variants</h4>
                         {newProduct.variants.map((v, vIndex) => (
@@ -154,25 +182,32 @@ export default function Product() {
                                 key={vIndex}
                                 className="mb-4 p-4 border rounded-lg bg-gray-50 shadow-sm"
                             >
-                                <input
-                                    type="text"
-                                    placeholder="Color"
-                                    className="border p-2 mb-2 rounded w-full"
-                                    value={v.color}
-                                    onChange={(e) => {
-                                        const variants = [...newProduct.variants]
-                                        variants[vIndex].color = e.target.value
-                                        setNewProduct({ ...newProduct, variants })
-                                    }}
-                                />
+                                <div className="flex justify-between items-center mb-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Color"
+                                        className="border p-2 rounded w-full"
+                                        value={v.color}
+                                        onChange={(e) => {
+                                            const variants = [...newProduct.variants]
+                                            variants[vIndex].color = e.target.value
+                                            setNewProduct({ ...newProduct, variants })
+                                        }}
+                                    />
+                                    <Button
+                                        variant="destructive"
+                                        size="sm"
+                                        onClick={() => handleRemoveVariant(vIndex)}
+                                    >
+                                        Remove Variant
+                                    </Button>
+                                </div>
 
                                 <div className="mb-2">
                                     <h5 className="font-medium mb-1">Sizes</h5>
                                     {v.sizes.map((s, sIndex) => (
-                                        <div key={sIndex} className="flex gap-2 mb-2">
-                                            <input
-                                                type="text"
-                                                placeholder="Size"
+                                        <div key={sIndex} className="flex gap-2 mb-2 items-center">
+                                            <select
                                                 className="border p-2 flex-1 rounded"
                                                 value={s.size}
                                                 onChange={(e) => {
@@ -181,20 +216,37 @@ export default function Product() {
                                                         e.target.value
                                                     setNewProduct({ ...newProduct, variants })
                                                 }}
-                                            />
+                                            >
+                                                <option value="">-- Chọn size --</option>
+                                                {['S', 'M', 'L', 'XL', '2XL', '3XL'].map((size) => (
+                                                    <option key={size} value={size}>
+                                                        {size}
+                                                    </option>
+                                                ))}
+                                            </select>
                                             <input
                                                 type="number"
                                                 placeholder="Stock"
-                                                className="border p-2 w-24 rounded"
+                                                min="0"
+                                                className="border p-2 w-28 rounded"
                                                 value={s.stock}
                                                 onChange={(e) => {
-                                                    const variants = [...newProduct.variants]
-                                                    variants[vIndex].sizes[sIndex].stock = parseInt(
-                                                        e.target.value
+                                                    const value = Math.max(
+                                                        0,
+                                                        parseInt(e.target.value) || 0
                                                     )
+                                                    const variants = [...newProduct.variants]
+                                                    variants[vIndex].sizes[sIndex].stock = value
                                                     setNewProduct({ ...newProduct, variants })
                                                 }}
                                             />
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => handleRemoveSize(vIndex, sIndex)}
+                                            >
+                                                X
+                                            </Button>
                                         </div>
                                     ))}
                                     <Button size="sm" onClick={() => handleAddSize(vIndex)}>
@@ -204,16 +256,16 @@ export default function Product() {
 
                                 <div>
                                     <h5 className="font-medium mb-1">Images</h5>
-                                    <div className="flex flex-wrap gap-2 mb-2">
+                                    <div className="flex flex-col gap-3 mb-2">
                                         {v.images.map((img, imgIndex) => (
                                             <div
                                                 key={imgIndex}
-                                                className="flex flex-col items-center"
+                                                className="flex items-center gap-3 p-2 border rounded bg-white shadow-sm"
                                             >
                                                 <input
                                                     type="text"
                                                     placeholder="Image URL"
-                                                    className="border p-2 rounded w-40 mb-1"
+                                                    className="border p-2 rounded flex-1"
                                                     value={img.url}
                                                     onChange={(e) => {
                                                         const variants = [...newProduct.variants]
@@ -262,37 +314,29 @@ export default function Product() {
                 </div>
             )}
 
+            {/* Table */}
             <Table className="min-w-full border border-gray-300 rounded-lg overflow-hidden">
                 <TableCaption className="text-gray-600">Danh sách sản phẩm</TableCaption>
                 <TableHeader className="bg-gray-100">
                     <TableRow className="border-b border-gray-300">
-                        <TableHead className="border-r border-gray-300">#</TableHead>
-                        <TableHead className="border-r border-gray-300">ID</TableHead>
-                        <TableHead className="border-r border-gray-300">Name</TableHead>
-                        <TableHead className="border-r border-gray-300">Price</TableHead>
-                        <TableHead className="border-r border-gray-300">Category</TableHead>
-                        <TableHead className="border-r border-gray-300">Variants</TableHead>
+                        <TableHead>#</TableHead>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Price</TableHead>
+                        <TableHead>Category</TableHead>
+                        <TableHead>Variants</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {products.map((product, index) => (
-                        <TableRow
-                            key={product.id}
-                            className="border-b border-gray-200 hover:bg-gray-50"
-                        >
-                            <TableCell className="border-r border-gray-300">{index + 1}</TableCell>
-                            <TableCell className="border-r border-gray-300">{product.id}</TableCell>
-                            <TableCell className="border-r border-gray-300">
-                                {product.name}
-                            </TableCell>
-                            <TableCell className="border-r border-gray-300">
-                                {product.price}
-                            </TableCell>
-                            <TableCell className="border-r border-gray-300">
-                                {product.category?.name || '-'}
-                            </TableCell>
-                            <TableCell className="border-r border-gray-300">
+                        <TableRow key={product.id} className="hover:bg-gray-50">
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{product.id}</TableCell>
+                            <TableCell>{product.name}</TableCell>
+                            <TableCell>{product.price}</TableCell>
+                            <TableCell>{product.category?.name || '-'}</TableCell>
+                            <TableCell>
                                 {product.variants?.map((v) => (
                                     <div key={v.id} className="mb-3 p-2 border rounded bg-gray-50">
                                         <p className="font-medium">Color: {v.color}</p>

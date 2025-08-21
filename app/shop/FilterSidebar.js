@@ -101,7 +101,7 @@ export default function FilterSidebar({
                         <input
                             type="range"
                             min="0"
-                            max="2000000"
+                            max="10000000"
                             step="50000"
                             value={maxPrice}
                             onChange={handleMaxChange}

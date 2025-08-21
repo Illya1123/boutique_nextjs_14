@@ -8,7 +8,7 @@ export default function SidebarFilter({ products = [] }) {
     const [sexFilter, setSexFilter] = useState('')
     const [categoryFilter, setCategoryFilter] = useState('')
     const [minPrice, setMinPrice] = useState(0)
-    const [maxPrice, setMaxPrice] = useState(2000000)
+    const [maxPrice, setMaxPrice] = useState(10000000)
 
     // Hàm detect giới tính từ tên sản phẩm
     const detectSex = (name) => {
