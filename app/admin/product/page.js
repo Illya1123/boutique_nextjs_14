@@ -81,7 +81,7 @@ export default function Product() {
                 category_id: parseInt(newProduct.category_id),
             }
 
-            const res = await axios.put(`/api/products?id=${id}`, payload)
+            const res = await axios.put(`/api/admin/products?id=${id}`, payload)
 
             if (res.data.success) {
                 const updated = res.data.product
@@ -120,7 +120,7 @@ export default function Product() {
                 price: parseFloat(newProduct.price),
                 category_id: parseInt(newProduct.category_id),
             }
-            const res = await axios.post('/api/products', payload)
+            const res = await axios.post('/api/admin/products', payload)
             if (res.data.success) {
                 setProducts([...products, res.data.product])
                 setShowForm(false)
@@ -166,7 +166,7 @@ export default function Product() {
     const handleDelete = async (id) => {
         if (!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return
         try {
-            const res = await axios.delete(`/api/products?id=${id}`)
+            const res = await axios.delete(`/api/admin/products?id=${id}`)
             if (res.data.success) setProducts(products.filter((p) => p.id !== id))
         } catch (error) {
             console.error(error)
