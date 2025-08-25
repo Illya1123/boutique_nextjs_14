@@ -1,6 +1,6 @@
 'use client'
 import AnswerTheQuestion from '../_components/AnswerTheQuestion'
-import useFetchData from '@/hooks/useFetchData'
+import { useFetchData } from '@/hooks/useFetchData'
 
 function Faq() {
     const { data: faqData, loading, error } = useFetchData('/data_faq.json')

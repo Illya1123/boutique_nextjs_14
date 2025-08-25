@@ -106,48 +106,53 @@ export async function GET(req) {
 // PUT - cập nhật sản phẩm toàn bộ, bao gồm variants, sizes, images
 export async function PUT(req) {
     try {
-        const body = await req.json()
-        if (!body.id) {
+        // Lấy `id` từ query string: /api/products?id=abc123
+        const { searchParams } = new URL(req.url)
+        const id = searchParams.get('id')
+
+        if (!id) {
             return NextResponse.json(
                 { success: false, error: 'Product id is required' },
                 { status: 400 }
             )
         }
 
-        // Xóa variants cũ (cascades sẽ xóa sizes và images nếu cấu hình Prisma)
-        await prisma.variant.deleteMany({
-            where: { productId: parseInt(body.id) },
+        const body = await req.json()
+
+        // Nếu bạn muốn xài UUID, không cần Number(id)
+        // Xóa variants cũ (cascade sẽ xóa sizes/images nếu cấu hình đúng)
+        await prisma.productVariant.deleteMany({
+            where: { product_id: id },
         })
 
-        // Cập nhật thông tin product cơ bản
+        // Cập nhật thông tin sản phẩm
         const product = await prisma.product.update({
-            where: { id: parseInt(body.id) },
+            where: { id },
             data: {
                 name: body.name,
                 description: body.description,
                 price: body.price,
-                category: body.category_id ? { connect: { id: body.category_id } } : undefined,
+                category: body.category_id
+                    ? { connect: { id: body.category_id } }
+                    : undefined,
                 variants: body.variants
                     ? {
                           create: body.variants.map((variant) => ({
                               color: variant.color,
-                              stock: variant.stock || 0,
-                              sizes: variant.sizes
-                                  ? {
-                                        create: variant.sizes.map((s) => ({
-                                            size: s.size,
-                                            stock: s.stock || 0,
-                                        })),
-                                    }
-                                  : undefined,
-                              images: variant.images
-                                  ? {
-                                        create: variant.images.map((img) => ({
-                                            url: img.url,
-                                            is_primary: img.is_primary || false,
-                                        })),
-                                    }
-                                  : undefined,
+                              sizes: {
+                                  create:
+                                      variant.sizes?.map((s) => ({
+                                          size: s.size,
+                                          stock: s.stock || 0,
+                                      })) || [],
+                              },
+                              images: {
+                                  create:
+                                      variant.images?.map((img) => ({
+                                          url: img.url,
+                                          is_primary: img.is_primary || false,
+                                      })) || [],
+                              },
                           })),
                       }
                     : undefined,
@@ -169,6 +174,7 @@ export async function PUT(req) {
         return NextResponse.json({ success: false, error: error.message }, { status: 500 })
     }
 }
+
 
 // DELETE - xóa sản phẩm
 export async function DELETE(req) {

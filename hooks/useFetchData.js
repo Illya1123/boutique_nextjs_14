@@ -1,32 +1,27 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-export default function useFetchData(url) {
-    const [data, setData] = useState([])
+export function useFetchData(url, options = {}) {
+    const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        let isMounted = true
-
+        if (!url) return
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get(url)
-                if (isMounted) setData(res.data)
+                const res = await axios.get(url, options)
+                setData(res.data)
             } catch (err) {
-                if (isMounted) setError('Lỗi khi lấy dữ liệu')
+                setError(err)
             } finally {
-                if (isMounted) setLoading(false)
+                setLoading(false)
             }
         }
-
         fetchData()
-
-        return () => {
-            isMounted = false
-        }
     }, [url])
 
     return { data, loading, error }

@@ -18,6 +18,9 @@ export default function Product() {
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
     const [showForm, setShowForm] = useState(false)
+    const [editingProductId, setEditingProductId] = useState(null)
+    const isEditing = editingProductId !== null
+
     const [newProduct, setNewProduct] = useState({
         name: '',
         description: '',
@@ -70,6 +73,34 @@ export default function Product() {
         setNewProduct({ ...newProduct, variants })
     }
 
+    const handleUpdate = async (id) => {
+        try {
+            const payload = {
+                ...newProduct,
+                price: parseFloat(newProduct.price),
+                category_id: parseInt(newProduct.category_id),
+            }
+
+            const res = await axios.put(`/api/products?id=${id}`, payload)
+
+            if (res.data.success) {
+                const updated = res.data.product
+                setProducts(products.map((p) => (p.id === updated.id ? updated : p)))
+                setShowForm(false)
+                setEditingProductId(null)
+                setNewProduct({
+                    name: '',
+                    description: '',
+                    price: '',
+                    category_id: '',
+                    variants: [],
+                })
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const handleRemoveSize = (vIndex, sIndex) => {
         const variants = [...newProduct.variants]
         variants[vIndex].sizes.splice(sIndex, 1)
@@ -104,6 +135,32 @@ export default function Product() {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    const handleEdit = (product) => {
+        setNewProduct({
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            category_id: product.category?.id || '',
+            variants:
+                product.variants?.map((variant) => ({
+                    color: variant.color,
+                    sizes:
+                        variant.sizes?.map((s) => ({
+                            size: s.size,
+                            stock: s.stock,
+                        })) || [],
+                    images:
+                        variant.images?.map((img) => ({
+                            url: img.url,
+                            is_primary: img.is_primary,
+                        })) || [],
+                })) || [],
+        })
+        setEditingProductId(product.id)
+        setShowForm(true)
     }
 
     const handleDelete = async (id) => {
@@ -306,8 +363,25 @@ export default function Product() {
                     </div>
 
                     <div className="flex gap-4">
-                        <Button onClick={handleCreate}>Create</Button>
-                        <Button variant="outline" onClick={() => setShowForm(false)}>
+                        {isEditing ? (
+                            <Button onClick={() => handleUpdate(editingProductId)}>Update</Button>
+                        ) : (
+                            <Button onClick={handleCreate}>Create</Button>
+                        )}
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                setShowForm(false)
+                                setEditingProductId(null)
+                                setNewProduct({
+                                    name: '',
+                                    description: '',
+                                    price: '',
+                                    category_id: '',
+                                    variants: [],
+                                })
+                            }}
+                        >
                             Cancel
                         </Button>
                     </div>
@@ -365,7 +439,11 @@ export default function Product() {
                             </TableCell>
                             <TableCell>
                                 <div className="flex gap-2">
-                                    <Button variant="outline" size="sm">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => handleEdit(product)}
+                                    >
                                         Edit
                                     </Button>
                                     <Button

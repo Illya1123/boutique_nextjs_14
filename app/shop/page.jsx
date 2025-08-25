@@ -1,10 +1,10 @@
 'use client'
 
 import SidebarFilter from './SidebarFilter'
-import useFetchData from '@/hooks/useFetchData'
+import { useFetchData } from '@/hooks/useFetchData'
 
 export default function ShopPage() {
-    const {data: products, loading, error} = useFetchData('/api/products')
+    const { data: products, loading, error } = useFetchData('/api/products')
 
     if (loading) {
         return <p className="p-4">Đang tải sản phẩm...</p>

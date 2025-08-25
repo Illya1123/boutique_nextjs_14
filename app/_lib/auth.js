@@ -14,7 +14,6 @@ const authConfig = {
             return !!auth?.user
         },
 
-        // Khi user đăng nhập
         async signIn({ user }) {
             try {
                 // Kiểm tra xem đã có account trong DB chưa
@@ -39,17 +38,23 @@ const authConfig = {
             }
         },
 
-        // Bổ sung guestId (account id) vào session
-        async session({ session }) {
-            if (session?.user?.email) {
+        async jwt({ token, user }) {
+            if (user?.email) {
                 const account = await prisma.account.findUnique({
-                    where: { email: session.user.email },
+                    where: { email: user.email },
                 })
-
                 if (account) {
-                    session.user.guestId = account.id
-                    session.user.role = account.role
+                    token.role = account.role
+                    token.guestId = account.id
                 }
+            }
+            return token
+        },
+
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.role = token.role
+                session.user.guestId = token.guestId
             }
             return session
         },
