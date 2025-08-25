@@ -1,7 +1,7 @@
 'use client'
 
 import { useRequireAdmin } from '@/hooks/useRequireAdmin'
-import SideNavigation from '../_components/SideNavigation'
+import SideNavigation from '@/app/_components/SideNavigation'
 import navLinks from '@/app/data/NavLinkAdmin'
 
 export default function AdminLayout({ children }) {

@@ -1,5 +1,5 @@
 'use client'
-import AnswerTheQuestion from '../_components/AnswerTheQuestion'
+import AnswerTheQuestion from '@/app/_components/AnswerTheQuestion'
 import { useFetchData } from '@/hooks/useFetchData'
 
 function Faq() {

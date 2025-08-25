@@ -1,5 +1,5 @@
 import AboutHero from './sections/HeroSection'
-import SocialSidebar from '../_components/SocialSidebar'
+import SocialSidebar from '@/app/_components/SocialSidebar'
 
 function AboutPage() {
     return (
