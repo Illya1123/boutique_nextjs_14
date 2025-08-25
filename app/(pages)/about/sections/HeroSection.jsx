@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function AboutHero() {
     return (
@@ -23,10 +24,12 @@ export default function AboutHero() {
                         overflow-hidden rounded-[9999px_9999px_0_0] shadow-xl bg-white
                         md:mr-[-3rem]"
                     >
-                        <img
-                            src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/322955201_477874647832781_534609581150939179_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=4LbFVLh1rVoQ7kNvwF4P0fq&_nc_oc=AdkWWDxGOGdKTXSeomnWqAojtyi-97sm_onqyX0wkP8TjJbkvUULihixN6_FrS2dP8Y&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=3cu6mgk8HZhHlx0IR9BD8g&oh=00_AfV811JkPC1i-fNNNcWI28qZlqa7KLgP9977ykUTiEckgQ&oe=68A9DEE7"
-                            alt="Founder"
-                            className="w-full h-full object-cover"
+                        <Image
+                            src="/images/about/toi_day.jpg"
+                            alt="founder của Boutique"
+                            fill
+                            className="object-cover"
+                            priority
                         />
                     </div>
                 </div>
