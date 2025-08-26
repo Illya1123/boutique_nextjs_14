@@ -22,14 +22,12 @@ export default function AdminLayout({ children }) {
                 <h1 className="text-xl font-bold">Admin Panel</h1>
             </header>
 
-            <div className="flex flex-1 gap-12 overflow-hidden">
-                <div className="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+            <div className="flex h-screen">
+                <div className="w-64 bg-white border-r border-gray-200">
                     <SideNavigation navLinks={navLinks} />
                 </div>
 
-                <div className="flex-1 overflow-y-auto py-4 px-6">
-                    {children}
-                </div>
+                <div className="flex-1 overflow-y-auto">{children}</div>
             </div>
         </div>
     )
