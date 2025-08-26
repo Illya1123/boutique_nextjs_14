@@ -1,5 +1,5 @@
 'use client'
-function BasicInfoProduct({newProduct, setNewProduct, categories}) {
+function BasicInfoProduct({ newProduct, setNewProduct, categories }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <input

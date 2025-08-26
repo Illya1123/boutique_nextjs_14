@@ -1,4 +1,4 @@
-import { DocumentChartBarIcon, BuildingStorefrontIcon } from '@heroicons/react/24/solid'
+import { DocumentChartBarIcon, BuildingStorefrontIcon, DocumentIcon } from '@heroicons/react/24/solid'
 
 const navLinks = [
     {
@@ -10,6 +10,11 @@ const navLinks = [
         name:'Product',
         href: '/admin/product',
         icon: <BuildingStorefrontIcon className="h-5 w-5 text-primary-600" />
+    },
+    {
+        name:'Category',
+        href: '/admin/category',
+        icon: <DocumentIcon className="h-5 w-5 text-primary-600" />
     }
 ]
 

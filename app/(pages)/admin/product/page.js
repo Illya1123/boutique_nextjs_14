@@ -1,8 +1,7 @@
 'use client'
-import { Button } from '@/components/ui/button'
+import ContentAndCreate from '@/app/_components/Admin/ContentAndCreate'
 import TableList from '@/app/_components/Admin/TableList'
-import FunctionalForm from '@/app/_components/Admin/FunctionalForm'
-
+import FunctionalForm from '@/app/_components/Admin/ProductForm'
 import { useAdminCallProduct } from '@/hooks/useAdminCallProduct'
 
 export default function Product() {
@@ -32,13 +31,7 @@ export default function Product() {
 
     return (
         <div className="px-6 py-4">
-            <div className="flex justify-between items-center mb-6">
-                <div>
-                    <h2 className="text-3xl font-bold text-gray-800">Dashboard</h2>
-                    <p className="text-gray-600">Quản lý sản phẩm</p>
-                </div>
-                <Button onClick={() => setShowForm(true)}>Thêm sản phẩm</Button>
-            </div>
+            <ContentAndCreate label="sản phẩm" setShowForm={setShowForm} />
 
             {showForm && (
                 <FunctionalForm
