@@ -1,7 +1,6 @@
 'use client'
 import ContentAndCreate from '@/app/_components/Admin/ContentAndCreate'
 import TableList from '@/app/_components/Admin/TableList'
-import FunctionalForm from '@/app/_components/Admin/ProductForm'
 import { useAdminCallCategory } from '@/hooks/useAdminCallCategory'
 import CategoryForm from '@/app/_components/Admin/CategoryForm'
 

@@ -1,7 +1,27 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/app/_lib/prisma'
 
-// POST - tạo danh mục
+/**
+ * @swagger
+ * /admin/categories:
+ *   post:
+ *     summary: Tạo danh mục mới
+ *     tags: [Categories - Admin]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Danh mục được tạo thành công
+ *       500:
+ *         description: Lỗi server
+ */
 export async function POST(req) {
     try {
         const body = await req.json()
@@ -20,7 +40,35 @@ export async function POST(req) {
 }
 
 
-// PUT - cập nhật danh mục
+/**
+ * @swagger
+ * /admin/categories:
+ *   put:
+ *     summary: Cập nhật danh mục theo ID
+ *     tags: [Categories - Admin]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Cập nhật thành công
+ *       400:
+ *         description: Thiếu ID
+ *       500:
+ *         description: Lỗi server
+ */
 export async function PUT(req) {
     try {
         const { searchParams } = new URL(req.url)
@@ -48,7 +96,26 @@ export async function PUT(req) {
     }
 }
 
-// DELETE - xóa danh mục
+/**
+ * @swagger
+ * /admin/categories:
+ *   delete:
+ *     summary: Xóa danh mục theo ID
+ *     tags: [Categories - Admin]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Xóa thành công
+ *       400:
+ *         description: Thiếu ID
+ *       500:
+ *         description: Lỗi server
+ */
 export async function DELETE(req) {
     try {
         const { searchParams } = new URL(req.url)

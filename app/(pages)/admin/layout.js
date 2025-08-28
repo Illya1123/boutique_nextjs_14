@@ -3,6 +3,7 @@
 import { useRequireAdmin } from '@/hooks/useRequireAdmin'
 import SideNavigation from '@/app/_components/SideNavigation'
 import navLinks from '@/app/data/NavLinkAdmin'
+import Link from 'next/link'
 
 export default function AdminLayout({ children }) {
     const { isLoading } = useRequireAdmin()
@@ -18,8 +19,17 @@ export default function AdminLayout({ children }) {
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col">
-            <header className="bg-gray-800 text-white p-4">
+            <header className="bg-gray-800 text-white p-4 flex items-center justify-between">
                 <h1 className="text-xl font-bold">Admin Panel</h1>
+                
+                {/* Nút Swagger */}
+                <Link
+                    href="/admin/docs"
+                    target="_blank"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+                >
+                    Swagger
+                </Link>
             </header>
 
             <div className="flex h-screen">

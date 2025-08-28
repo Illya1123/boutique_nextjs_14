@@ -1,7 +1,54 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/app/_lib/prisma'
 
-// POST - tạo sản phẩm
+/**
+ * @swagger
+ * /admin/products:
+ *   post:
+ *     summary: Tạo sản phẩm mới
+ *     tags: [Products - Admin]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               category_id:
+ *                 type: string
+ *               variants:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     color:
+ *                       type: string
+ *                     sizes:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           size: { type: string }
+ *                           stock: { type: integer }
+ *                     images:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           url: { type: string }
+ *                           is_primary: { type: boolean }
+ *     responses:
+ *       200:
+ *         description: Sản phẩm đã được tạo
+ *       500:
+ *         description: Lỗi server
+ */
 export async function POST(req) {
     try {
         const body = await req.json()
@@ -54,8 +101,59 @@ export async function POST(req) {
     }
 }
 
-// PUT - cập nhật sản phẩm
-// PUT - cập nhật sản phẩm toàn bộ, bao gồm variants, sizes, images
+/**
+ * @swagger
+ * /admin/products:
+ *   put:
+ *     summary: Cập nhật sản phẩm theo ID
+ *     tags: [Products - Admin]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID của sản phẩm
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name: { type: string }
+ *               description: { type: string }
+ *               price: { type: number }
+ *               category_id: { type: string }
+ *               variants:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     color: { type: string }
+ *                     sizes:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           size: { type: string }
+ *                           stock: { type: integer }
+ *                     images:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           url: { type: string }
+ *                           is_primary: { type: boolean }
+ *     responses:
+ *       200:
+ *         description: Sản phẩm đã được cập nhật
+ *       400:
+ *         description: Thiếu id sản phẩm
+ *       500:
+ *         description: Lỗi server
+ */
+
 export async function PUT(req) {
     try {
         // Lấy `id` từ query string: /api/products?id=abc123
@@ -128,7 +226,27 @@ export async function PUT(req) {
 }
 
 
-// DELETE - xóa sản phẩm
+/**
+ * @swagger
+ * /admin/products:
+ *   delete:
+ *     summary: Xóa sản phẩm theo ID
+ *     tags: [Products - Admin]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID sản phẩm cần xóa
+ *     responses:
+ *       200:
+ *         description: Sản phẩm đã được xóa
+ *       400:
+ *         description: Thiếu id sản phẩm
+ *       500:
+ *         description: Lỗi server
+ */
 export async function DELETE(req) {
     try {
         const { searchParams } = new URL(req.url)

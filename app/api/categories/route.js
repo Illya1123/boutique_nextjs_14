@@ -1,7 +1,36 @@
 import prisma from '@/app/_lib/prisma'
 import { NextResponse } from 'next/server'
 
-// GET: lấy tất cả hoặc 1 category theo id
+/**
+ * @swagger
+ * /categories:
+ *   get:
+ *     summary: Lấy tất cả category hoặc 1 category theo id
+ *     tags: [Categories - User]
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: ID category cần lấy
+ *       - in: query
+ *         name: withProducts
+ *         schema:
+ *           type: boolean
+ *         required: false
+ *         description: Nếu true → trả về kèm danh sách sản phẩm
+ *     responses:
+ *       200:
+ *         description: Thành công
+ *       400:
+ *         description: Tham số không hợp lệ
+ *       404:
+ *         description: Không tìm thấy category
+ *       500:
+ *         description: Lỗi server
+ */
+
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url)
@@ -38,82 +67,5 @@ export async function GET(req) {
         }
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch categories' }, { status: 500 })
-    }
-}
-
-// POST: tạo mới, nếu trùng name thì không tạo
-export async function POST(req) {
-    try {
-        const body = await req.json()
-        const { name } = body
-
-        if (!name) {
-            return NextResponse.json({ error: 'Name is required' }, { status: 400 })
-        }
-
-        // Kiểm tra name đã tồn tại chưa
-        const existing = await prisma.category.findUnique({
-            where: { name },
-        })
-
-        if (existing) {
-            return NextResponse.json(existing, { status: 200 })
-        }
-
-        const category = await prisma.category.create({
-            data: { name },
-        })
-
-        return NextResponse.json(category, { status: 201 })
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to create category' }, { status: 500 })
-    }
-}
-
-// PUT: cập nhật (yêu cầu query param id)
-export async function PUT(req) {
-    try {
-        const { searchParams } = new URL(req.url)
-        const id = searchParams.get('id')
-
-        if (!id) {
-            return NextResponse.json({ error: 'ID is required for update' }, { status: 400 })
-        }
-
-        const body = await req.json()
-        const { name } = body
-
-        if (!name) {
-            return NextResponse.json({ error: 'Name is required' }, { status: 400 })
-        }
-
-        const category = await prisma.category.update({
-            where: { id: Number(id) },
-            data: { name },
-        })
-
-        return NextResponse.json(category)
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to update category' }, { status: 500 })
-    }
-}
-
-// DELETE: xóa (yêu cầu query param id)
-export async function DELETE(req) {
-    try {
-        const { searchParams } = new URL(req.url)
-        const id = searchParams.get('id')
-
-        if (!id) {
-            return NextResponse.json({ error: 'ID is required for delete' }, { status: 400 })
-        }
-
-        await prisma.category.delete({
-            where: { id: Number(id) },
-        })
-
-        return NextResponse.json({ message: 'Category deleted successfully' })
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to delete category' }, { status: 500 })
     }
 }
