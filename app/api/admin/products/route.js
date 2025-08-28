@@ -182,9 +182,7 @@ export async function PUT(req) {
                 name: body.name,
                 description: body.description,
                 price: body.price,
-                category: body.category_id
-                    ? { connect: { id: body.category_id } }
-                    : undefined,
+                category: body.category_id ? { connect: { id: body.category_id } } : undefined,
                 variants: body.variants
                     ? {
                           create: body.variants.map((variant) => ({
@@ -224,7 +222,6 @@ export async function PUT(req) {
         return NextResponse.json({ success: false, error: error.message }, { status: 500 })
     }
 }
-
 
 /**
  * @swagger

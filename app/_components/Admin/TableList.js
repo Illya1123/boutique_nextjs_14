@@ -44,9 +44,7 @@ export default function TableList({
                         {showIndex && <TableCell>{index + 1}</TableCell>}
                         {columns.map((col) => (
                             <TableCell key={col.key}>
-                                {col.render
-                                    ? col.render(row[col.key], row)
-                                    : row[col.key] ?? '-'}
+                                {col.render ? col.render(row[col.key], row) : (row[col.key] ?? '-')}
                             </TableCell>
                         ))}
                         {(onEdit || onDelete) && (

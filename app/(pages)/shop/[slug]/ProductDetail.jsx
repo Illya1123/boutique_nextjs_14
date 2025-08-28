@@ -9,8 +9,6 @@ import AppBreadcrumb from '@/app/_components/Breadcrumb'
 import ProductImages from './ProductImages'
 import ProductInfo from './ProductInfo'
 
-
-
 export default function ProductDetail({ params, searchParams }) {
     const dispatch = useDispatch()
     const products = useSelector((state) => state.products.items)

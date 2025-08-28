@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 export function useAdminCallCategory() {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
     const [showForm, setShowForm] = useState(false)
     const [editingCategoryId, setEditingCategoryId] = useState(null)
@@ -49,7 +49,7 @@ export function useAdminCallCategory() {
         try {
             const payload = {
                 ...newCategory,
-                name: newCategory.name
+                name: newCategory.name,
             }
             const res = await axios.put(`/api/admin/categories?id=${id}`, payload)
             if (res.data.success) {
@@ -65,18 +65,17 @@ export function useAdminCallCategory() {
     const handleEdit = (category) => {
         setNewCategory({
             id: category.id,
-            name: category.name
+            name: category.name,
         })
         setEditingCategoryId(category.id)
         setShowForm(true)
     }
 
-    const handleDelete = async(id) => {
-        if(!confirm('Bạn có chắc muốn xoá danh mục này?'))
-        return
+    const handleDelete = async (id) => {
+        if (!confirm('Bạn có chắc muốn xoá danh mục này?')) return
         try {
             const res = await axios.delete(`/api/admin/categories?id=${id}`)
-            if(res.data.success) setCategories(categories.filter((cate) => cate.id !== id))
+            if (res.data.success) setCategories(categories.filter((cate) => cate.id !== id))
         } catch (error) {
             console.error(error)
         }
@@ -86,11 +85,11 @@ export function useAdminCallCategory() {
         setShowForm(false)
         setEditingCategoryId(null)
         setNewCategory({
-            name: ''
+            name: '',
         })
     }
 
-    return { 
+    return {
         categories,
         loading,
         showForm,
@@ -103,6 +102,6 @@ export function useAdminCallCategory() {
         handleCreate,
         handleUpdate,
         handleEdit,
-        handleDelete
-    };
+        handleDelete,
+    }
 }

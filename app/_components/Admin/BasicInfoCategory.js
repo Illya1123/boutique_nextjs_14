@@ -1,6 +1,6 @@
 'use client'
 function BasicInfoCategory({ newCategory, setNewCategory }) {
-    return ( 
+    return (
         <div className="grid grid-cols-1 mb-4">
             <input
                 type="text"
@@ -10,7 +10,7 @@ function BasicInfoCategory({ newCategory, setNewCategory }) {
                 onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
             />
         </div>
-     );
+    )
 }
 
-export default BasicInfoCategory;
+export default BasicInfoCategory

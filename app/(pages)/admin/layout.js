@@ -21,7 +21,7 @@ export default function AdminLayout({ children }) {
         <div className="min-h-screen bg-gray-100 flex flex-col">
             <header className="bg-gray-800 text-white p-4 flex items-center justify-between">
                 <h1 className="text-xl font-bold">Admin Panel</h1>
-                
+
                 {/* Nút Swagger */}
                 <Link
                     href="/admin/docs"

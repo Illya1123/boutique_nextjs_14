@@ -7,7 +7,7 @@ import prisma from '@/app/_lib/prisma'
  *   get:
  *     summary: Lấy danh sách sản phẩm hoặc 1 sản phẩm theo id
  *     description: >
- *       - Nếu có query param `id` → trả về chi tiết 1 sản phẩm  
+ *       - Nếu có query param `id` → trả về chi tiết 1 sản phẩm
  *       - Nếu không có → trả về danh sách tất cả sản phẩm
  *     parameters:
  *       - in: query

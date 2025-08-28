@@ -17,11 +17,7 @@ export default function ProductImages({ variant }) {
     return (
         <div className="flex flex-col items-center bg-gray-50 rounded-lg p-6">
             {/* Ảnh chính */}
-            <img
-                src={selectedImage?.url}
-                alt="Product"
-                className="max-h-[500px] object-contain"
-            />
+            <img src={selectedImage?.url} alt="Product" className="max-h-[500px] object-contain" />
 
             {/* Thumbnails */}
             <div className="flex gap-2 mt-4">

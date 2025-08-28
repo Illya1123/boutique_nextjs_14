@@ -4,7 +4,7 @@ import { CalendarDaysIcon, HomeIcon, UserIcon } from '@heroicons/react/24/solid'
 import SignOutButton from './SignOutButton'
 import { usePathname } from 'next/navigation'
 
-function SideNavigation({navLinks}) {
+function SideNavigation({ navLinks }) {
     const pathname = usePathname()
 
     return (

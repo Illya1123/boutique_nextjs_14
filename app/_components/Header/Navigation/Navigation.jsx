@@ -5,7 +5,7 @@ import navItems from '@/app/data/NavItem'
 
 function Navigation() {
     const pathname = usePathname() || '/'
-    
+
     // chuẩn hóa pathname: bỏ trailing slash
     const cleanPathname = pathname.replace(/\/$/, '') || '/'
 

@@ -3,6 +3,30 @@ import { NextResponse } from 'next/server'
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Category:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         name:
+ *           type: string
+ *           example: "Áo thun"
+ *     CategoryWithProducts:
+ *       allOf:
+ *         - $ref: '#/components/schemas/Category'
+ *         - type: object
+ *           properties:
+ *             products:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
+
+/**
+ * @swagger
  * /categories:
  *   get:
  *     summary: Lấy tất cả category hoặc 1 category theo id
@@ -23,12 +47,14 @@ import { NextResponse } from 'next/server'
  *     responses:
  *       200:
  *         description: Thành công
- *       400:
- *         description: Tham số không hợp lệ
+ *         content:
+ *           application/json:
+ *             schema:
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/Category'
+ *                 - $ref: '#/components/schemas/CategoryWithProducts'
  *       404:
  *         description: Không tìm thấy category
- *       500:
- *         description: Lỗi server
  */
 
 export async function GET(req) {
