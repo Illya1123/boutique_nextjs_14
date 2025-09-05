@@ -100,16 +100,13 @@ export async function GET(req) {
                     createdAt: true,
                     category: {
                         select: {
-                            id: true,
                             name: true,
                             description: true,
                         },
                     },
                     author: {
                         select: {
-                            id: true,
                             name: true,
-                            email: true,
                         },
                     },
                     paragraph: {
@@ -140,16 +137,13 @@ export async function GET(req) {
                     createdAt: true,
                     category: {
                         select: {
-                            id: true,
                             name: true,
                             description: true,
                         },
                     },
                     author: {
                         select: {
-                            id: true,
                             name: true,
-                            email: true,
                         },
                     },
                     paragraph: {
