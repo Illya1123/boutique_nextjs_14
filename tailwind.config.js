@@ -1,3 +1,5 @@
+const { Cormorant_Garamond } = require('next/font/google');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ['class'],
@@ -14,6 +16,8 @@ module.exports = {
             },
             fontFamily: {
                 itim: ['var(--font-itim)', 'sans-serif'],
+                cormorantGaramond: ['var(--font-cormorant-garamond)', 'serif'],
+                poppins: ['var(--font-poppins)', 'sans-serif'],
                 geistSans: ['var(--font-geist-sans)', 'sans-serif'],
                 geistMono: ['var(--font-geist-mono)', 'monospace'],
                 merienda: ['Merienda', 'cursive'],

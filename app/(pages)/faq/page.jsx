@@ -14,9 +14,9 @@ function Faq() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-16 px-4 md:px-20">
+        <div className="min-h-screen px-4 py-16 bg-gray-50 md:px-20">
             <div className="max-w-4xl mx-auto">
-                <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">
+                <h1 className="mb-12 text-4xl font-bold text-center text-gray-800">
                     Câu hỏi thường gặp
                 </h1>
 

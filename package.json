@@ -9,10 +9,8 @@
         "start": "next start",
         "lint": "next lint",
         "format": "prettier --write .",
-        "swagger:generate": "node ./app/_lib/swagger.js"
-    },
-    "prisma": {
-        "seed": "node prisma/seed.js"
+        "swagger:generate": "node ./app/_lib/swagger.js",
+        "format:prisma": "prisma format"
     },
     "dependencies": {
         "@heroicons/react": "^2.2.0",
@@ -29,8 +27,10 @@
         "date-fns": "^4.1.0",
         "embla-carousel-react": "^8.6.0",
         "framer-motion": "^12.23.12",
+        "gray-matter": "^4.0.3",
         "jsonwebtoken": "^9.0.2",
         "lucide-react": "^0.539.0",
+        "moment": "^2.30.1",
         "next": "14.2.31",
         "next-auth": "^5.0.0-beta.29",
         "pg": "^8.16.3",
@@ -39,6 +39,8 @@
         "react-icons": "^5.5.0",
         "react-redux": "^9.2.0",
         "redux-persist": "^6.0.0",
+        "remark": "^15.0.1",
+        "remark-html": "^16.0.1",
         "shadcn": "^2.10.0",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
