@@ -1,4 +1,4 @@
-const { Cormorant_Garamond } = require('next/font/google');
+const { Cormorant_Garamond } = require('next/font/google')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

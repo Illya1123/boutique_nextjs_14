@@ -1,4 +1,3 @@
-// app/blogs/[slug]/page.js
 import axios from 'axios'
 import BlogDetailClient from './BlogDetailClient'
 

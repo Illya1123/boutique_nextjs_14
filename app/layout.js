@@ -6,13 +6,13 @@ const itim = Itim({ subsets: ['latin'], weight: '400' })
 const cormorant_garamond = Cormorant_Garamond({
     subsets: ['latin'],
     variable: '--font-cormorant-garamond',
-    weight: ['400']
+    weight: ['400'],
 })
 
 const poppins = Poppins({
     subnet: ['latin'],
     variable: '--font-poppins',
-    weight: ['400','600'],
+    weight: ['400', '600'],
     preload: false,
 })
 

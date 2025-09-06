@@ -1,7 +1,7 @@
 'use client'
-import ProductDetailPayment from "@/app/(pages)/payment/ProductDetail"
+import ProductDetailPayment from '@/app/(pages)/payment/ProductDetail'
 
-export default function PaymentPage({searchParams}) {
+export default function PaymentPage({ searchParams }) {
     return
-        <ProductDetailPayment />
+    ;<ProductDetailPayment />
 }

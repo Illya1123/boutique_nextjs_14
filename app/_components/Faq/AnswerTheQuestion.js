@@ -11,10 +11,10 @@ function AnswerTheQuestion({ data }) {
     return (
         <div className="space-y-4">
             {data.map((item, index) => (
-                <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
+                <div key={index} className="overflow-hidden bg-white shadow-md rounded-xl">
                     <button
                         onClick={() => toggleIndex(index)}
-                        className="w-full px-6 py-4 flex justify-between items-center text-left focus:outline-none"
+                        className="flex items-center justify-between w-full px-6 py-4 text-left focus:outline-none"
                     >
                         {/* Câu hỏi */}
                         <span className="text-lg font-medium text-blue-700">{item.question}</span>
