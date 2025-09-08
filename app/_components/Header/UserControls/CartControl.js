@@ -38,7 +38,7 @@ function CartControl() {
                 <span className="relative inline-flex items-center justify-center">
                     <FaShoppingBag className="align-middle" />
                     {cartCount > 0 && (
-                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                        <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-2 -right-2">
                             {cartCount}
                         </span>
                     )}
@@ -55,10 +55,10 @@ function CartControl() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -20, scale: 0.95 }}
                         transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 z-50"
+                        className="absolute right-0 z-50 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg w-80 dark:bg-gray-800 dark:border-gray-700"
                     >
                         <div className="p-4 text-gray-700 dark:text-gray-200">
-                            <h3 className="font-semibold mb-2">Giỏ hàng</h3>
+                            <h3 className="mb-2 font-semibold">Giỏ hàng</h3>
 
                             {cartItems.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-6">
@@ -74,24 +74,24 @@ function CartControl() {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="space-y-3 max-h-64 overflow-y-auto">
+                                    <div className="space-y-3 overflow-y-auto max-h-64">
                                         {cartItems.map((item) => {
                                             const slug = slugify(item.name)
                                             const productUrl = `/shop/${slug}?id=${item.productId}&variantId=${item.variantId}&size=${item.size}`
                                             return (
                                                 <div
                                                     key={item.cartItemId}
-                                                    className="flex items-center gap-3 border-b pb-2 last:border-b-0"
+                                                    className="flex items-center gap-3 pb-2 border-b last:border-b-0"
                                                 >
                                                     <Link
                                                         href={productUrl}
-                                                        className="flex items-center gap-3 flex-1 hover:bg-gray-100 dark:hover:bg-gray-700 p-1 rounded"
+                                                        className="flex items-center flex-1 gap-3 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                                                         onClick={() => setOpen(false)}
                                                     >
                                                         <img
                                                             src={item.image}
                                                             alt={item.name}
-                                                            className="w-12 h-12 object-cover rounded"
+                                                            className="object-cover w-12 h-12 rounded"
                                                         />
                                                         <div className="flex-1">
                                                             <p className="text-sm font-medium">
@@ -123,16 +123,20 @@ function CartControl() {
                                     </div>
 
                                     {/* Tổng giá */}
-                                    <div className="mt-3 flex justify-between font-semibold text-gray-800 dark:text-gray-100">
+                                    <div className="flex justify-between mt-3 font-semibold text-gray-800 dark:text-gray-100">
                                         <span>Tổng:</span>
                                         <span>{subtotal.toLocaleString()}đ</span>
                                     </div>
                                 </>
                             )}
 
-                            <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                            <Link
+                                href="/payment"
+                                className="inline-flex items-center justify-center w-full py-2 mt-3 text-white bg-blue-600 rounded hover:bg-blue-700"
+                                onClick={() => setOpen(false)}
+                            >
                                 Xem giỏ hàng
-                            </button>
+                            </Link>
                         </div>
                     </motion.div>
                 )}
