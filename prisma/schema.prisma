@@ -100,6 +100,9 @@ model Order {
   status            OrderStatus @default(PENDING)
   payment_method_id Int
 
+  address        String?      @db.VarChar(255)
+  contact_phone  String?      @db.VarChar(15)
+
   customer      Account?      @relation(fields: [customer_id], references: [id], onUpdate: Cascade, onDelete: SetNull)
   paymentMethod PaymentMethod @relation(fields: [payment_method_id], references: [id])
   orderItems    OrderItem[]
