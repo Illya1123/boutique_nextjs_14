@@ -9,6 +9,7 @@ export async function GET() {
         })
         return NextResponse.json({ categories })
     } catch (e) {
+        console.error('GET /api/blog-categories error:', e)
         return NextResponse.json({ categories: [] }, { status: 200 })
     }
 }
