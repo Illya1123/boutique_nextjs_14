@@ -20,6 +20,11 @@ const navLinks = [
         href: '/admin/category',
         icon: <DocumentIcon className="h-5 w-5 text-primary-600" />,
     },
+    {
+        name: 'Blog',
+        href: '/admin/blogs',
+        icon: <DocumentIcon className="h-5 w-5 text-primary-600" />,
+    },
 ]
 
 export default navLinks

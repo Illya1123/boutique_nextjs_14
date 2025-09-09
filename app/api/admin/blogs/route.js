@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/app/_lib/prisma'
+import { auth } from '@/app/_lib/auth'
 
 /**
  * @swagger
@@ -7,19 +8,19 @@ import prisma from '@/app/_lib/prisma'
  *   post:
  *     summary: Tạo blog mới
  *     tags: [Blogs - Admin]
+ *     description: Yêu cầu quyền admin. author_id được lấy từ session, không nhận từ body.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required: [title, category_id, paragraphs]
  *             properties:
  *               title:
  *                 type: string
  *               category_id:
  *                 type: integer
- *               author_id:
- *                 type: string
  *               tags:
  *                 type: array
  *                 items:
@@ -31,6 +32,7 @@ import prisma from '@/app/_lib/prisma'
  *                   properties:
  *                     type:
  *                       type: string
+ *                       enum: [text, image]
  *                     text:
  *                       type: string
  *                     image_url:
@@ -38,65 +40,77 @@ import prisma from '@/app/_lib/prisma'
  *                     order:
  *                       type: integer
  *     responses:
- *       200:
+ *       201:
  *         description: Blog được tạo thành công
+ *       400:
+ *         description: Thiếu dữ liệu
+ *       401:
+ *         description: Chưa đăng nhập
+ *       403:
+ *         description: Không có quyền
  *       500:
  *         description: Lỗi server
  */
 export async function POST(req) {
     try {
-        const body = await req.json()
-        const { title, category_id, author_id, tags = [], paragraphs = [] } = body
+        const session = await auth()
+        if (!session?.user?.guestId) {
+            return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+        }
+        // Nếu muốn chắc chắn:
+        // if (session.user.role !== 'admin') {
+        //   return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 })
+        // }
 
-        // B1: Tạo blog trước, KHÔNG truyền tags vào đây
-        const blog = await prisma.blog.create({
-            data: {
-                title,
-                category_id,
-                author_id,
-                paragraph: {
-                    create: paragraphs.map((p, index) => ({
-                        type: p.type,
-                        image_url: p.image_url || null,
-                        text: p.text,
-                        order: p.order ?? index,
-                    })),
-                },
-            },
-        })
+        const { title, category_id, tags = [], paragraphs = [] } = await req.json()
 
-        // B2: Tạo từng tag trong bảng BlogTag
-        for (const tagName of tags) {
-            const tag = await prisma.tag.upsert({
-                where: { name: tagName },
-                update: {},
-                create: { name: tagName },
-            })
-
-            await prisma.blogTag.create({
-                data: {
-                    blog_id: blog.id,
-                    tag_id: tag.id,
-                },
-            })
+        if (!title || !category_id || !Array.isArray(paragraphs) || paragraphs.length === 0) {
+            return NextResponse.json({ success: false, error: 'Thiếu dữ liệu' }, { status: 400 })
         }
 
-        // B3: Trả lại dữ liệu blog đã có tags & paragraphs
-        const fullBlog = await prisma.blog.findUnique({
-            where: { id: blog.id },
-            include: {
-                paragraph: true,
-                category: true,
-                author: true,
-                tags: {
-                    include: {
-                        tag: true,
-                    },
+        const normalizedParagraphs = paragraphs.map((p, idx) => ({
+            type: p.type === 'image' ? 'image' : 'text',
+            text: p.text ?? '',
+            image_url: p.type === 'image' ? (p.image_url ?? null) : null,
+            order: Number.isFinite(p.order) ? p.order : idx + 1,
+        }))
+
+        const tagCreates = tags.map((name) => ({
+            tag: {
+                connectOrCreate: {
+                    where: { name },
+                    create: { name },
                 },
             },
+        }))
+
+        // Transaction: tạo blog + paragraphs + tags, sau đó load lại đầy đủ
+        const created = await prisma.$transaction(async (tx) => {
+            const blog = await tx.blog.create({
+                data: {
+                    title,
+                    category: { connect: { id: Number(category_id) } },
+                    author: { connect: { id: session.user.guestId } },
+                    paragraph: {
+                        createMany: { data: normalizedParagraphs },
+                    },
+                    tags: { create: tagCreates },
+                },
+                select: { id: true },
+            })
+
+            return tx.blog.findUnique({
+                where: { id: blog.id },
+                include: {
+                    paragraph: true,
+                    category: true,
+                    author: true,
+                    tags: { include: { tag: true } },
+                },
+            })
         })
 
-        return NextResponse.json({ success: true, blog: fullBlog })
+        return NextResponse.json({ success: true, blog: created }, { status: 201 })
     } catch (error) {
         console.error(error)
         return NextResponse.json({ success: false, error: error.message }, { status: 500 })
@@ -137,6 +151,7 @@ export async function POST(req) {
  *                   properties:
  *                     type:
  *                       type: string
+ *                       enum: [text, image]
  *                     text:
  *                       type: string
  *                     image_url:
@@ -148,14 +163,23 @@ export async function POST(req) {
  *         description: Cập nhật thành công
  *       400:
  *         description: Thiếu ID
+ *       401:
+ *         description: Chưa đăng nhập
+ *       403:
+ *         description: Không có quyền
  *       500:
  *         description: Lỗi server
  */
 export async function PUT(req) {
     try {
+        const session = await auth()
+        if (!session?.user?.guestId) {
+            return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+        }
+        // if (session.user.role !== 'admin') return NextResponse.json({ success:false, error:'Forbidden'},{status:403})
+
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('id')
-
         if (!id) {
             return NextResponse.json(
                 { success: false, error: 'Blog id is required' },
@@ -163,47 +187,54 @@ export async function PUT(req) {
             )
         }
 
-        const body = await req.json()
-        const { title, category_id, tags = [], paragraphs = [] } = body
+        const { title, category_id, tags = [], paragraphs = [] } = await req.json()
 
-        // Xoá các tag cũ
-        await prisma.blogTag.deleteMany({ where: { blog_id: id } })
+        const normalizedParagraphs = (paragraphs ?? []).map((p, idx) => ({
+            type: p.type === 'image' ? 'image' : 'text',
+            text: p.text ?? '',
+            image_url: p.type === 'image' ? (p.image_url ?? null) : null,
+            order: Number.isFinite(p.order) ? p.order : idx + 1,
+        }))
 
-        const blog = await prisma.blog.update({
-            where: { id },
-            data: {
-                title,
-                category_id,
-                paragraph: {
-                    deleteMany: {}, // Xoá toàn bộ đoạn cũ
-                    create: paragraphs.map((p, index) => ({
-                        type: p.type,
-                        image_url: p.image_url || null,
-                        text: p.text,
-                        order: p.order ?? index,
-                    })),
-                },
-                tags: {
-                    create: tags.map((tagName) => ({
-                        tag: {
-                            connectOrCreate: {
-                                where: { name: tagName },
-                                create: { name: tagName },
+        const result = await prisma.$transaction(async (tx) => {
+            // reset tags (join table)
+            await tx.blogTag.deleteMany({ where: { blog_id: id } })
+
+            // update blog + replace paragraphs + add tags
+            await tx.blog.update({
+                where: { id },
+                data: {
+                    title: title ?? undefined,
+                    category_id: category_id ?? undefined,
+                    paragraph: {
+                        deleteMany: {}, // xóa toàn bộ đoạn cũ
+                        createMany: { data: normalizedParagraphs },
+                    },
+                    tags: {
+                        create: (tags ?? []).map((name) => ({
+                            tag: {
+                                connectOrCreate: {
+                                    where: { name },
+                                    create: { name },
+                                },
                             },
-                        },
-                    })),
+                        })),
+                    },
                 },
-            },
-            include: {
-                paragraph: true,
-                category: true,
-                tags: {
-                    include: { tag: true },
+            })
+
+            return tx.blog.findUnique({
+                where: { id },
+                include: {
+                    paragraph: true,
+                    category: true,
+                    author: true,
+                    tags: { include: { tag: true } },
                 },
-            },
+            })
         })
 
-        return NextResponse.json({ success: true, blog })
+        return NextResponse.json({ success: true, blog: result })
     } catch (error) {
         console.error(error)
         return NextResponse.json({ success: false, error: error.message }, { status: 500 })
@@ -227,14 +258,23 @@ export async function PUT(req) {
  *         description: Xoá thành công
  *       400:
  *         description: Thiếu ID
+ *       401:
+ *         description: Chưa đăng nhập
+ *       403:
+ *         description: Không có quyền
  *       500:
  *         description: Lỗi server
  */
 export async function DELETE(req) {
     try {
+        const session = await auth()
+        if (!session?.user?.guestId) {
+            return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+        }
+        // if (session.user.role !== 'admin') return NextResponse.json({ success:false, error:'Forbidden'},{status:403})
+
         const { searchParams } = new URL(req.url)
         const id = searchParams.get('id')
-
         if (!id) {
             return NextResponse.json(
                 { success: false, error: 'Blog id is required' },
@@ -242,14 +282,13 @@ export async function DELETE(req) {
             )
         }
 
-        // Xoá comments liên quan
-        await prisma.blogComment.deleteMany({ where: { blog_id: id } })
-
-        // Xoá paragraphs liên quan
-        await prisma.paragraph.deleteMany({ where: { blog_id: id } })
-
-        // Xoá blog
-        await prisma.blog.delete({ where: { id } })
+        await prisma.$transaction(async (tx) => {
+            // BlogComment không cascade → cần xóa trước
+            await tx.blogComment.deleteMany({ where: { blog_id: id } })
+            // Paragraph đang cascade theo schema → không cần xóa thủ công
+            // BlogTag có onDelete: Cascade → không cần xóa thủ công
+            await tx.blog.delete({ where: { id } })
+        })
 
         return NextResponse.json({ success: true, message: 'Blog deleted' })
     } catch (error) {
