@@ -1,12 +1,15 @@
 'use client'
 import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import SignInButtons from '@/app/_components/SignInButton'
+import EmailPasswordForm from '@/app/_components/EmailPasswordForm'
+import RegisterForm from '@/app/_components/RegisterForm'
 
 export default function LoginPage() {
     const { data: session } = useSession()
     const router = useRouter()
+    const [mode, setMode] = useState('login') // 'login' | 'register'
 
     useEffect(() => {
         if (session) router.replace('/')
@@ -26,8 +29,41 @@ export default function LoginPage() {
             </div>
 
             <div className="relative z-10 bg-white/90 backdrop-blur-md p-10 rounded-2xl shadow-2xl flex flex-col items-center gap-6 max-w-sm w-full">
-                <h1 className="text-3xl font-bold text-gray-900">Welcome Back!</h1>
-                <p className="text-gray-700 text-center">Sign in to continue to your account</p>
+                <h1 className="text-3xl font-bold text-gray-900">
+                    {mode === 'login' ? 'Welcome Back!' : 'Create your account'}
+                </h1>
+                <p className="text-gray-700 text-center">
+                    {mode === 'login'
+                        ? 'Sign in to continue to your account'
+                        : 'Sign up to get started'}
+                </p>
+
+                {/* Toggle */}
+                <div className="w-full grid grid-cols-2 text-sm rounded-lg overflow-hidden border">
+                    <button
+                        className={`py-2 ${mode === 'login' ? 'bg-gray-900 text-white' : 'bg-white/60'}`}
+                        onClick={() => setMode('login')}
+                    >
+                        Đăng nhập
+                    </button>
+                    <button
+                        className={`py-2 ${mode === 'register' ? 'bg-gray-900 text-white' : 'bg-white/60'}`}
+                        onClick={() => setMode('register')}
+                    >
+                        Đăng ký
+                    </button>
+                </div>
+
+                {/* Main form */}
+                {mode === 'login' ? <EmailPasswordForm /> : <RegisterForm />}
+
+                <div className="flex items-center gap-3 w-full">
+                    <div className="h-px bg-gray-300 flex-1" />
+                    <span className="text-xs text-gray-500">OR</span>
+                    <div className="h-px bg-gray-300 flex-1" />
+                </div>
+
+                {/* Google OAuth */}
                 <SignInButtons />
             </div>
         </main>
