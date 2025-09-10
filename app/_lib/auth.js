@@ -70,6 +70,7 @@ const authConfig = {
                     user.role = acc.role
                     user.id = acc.id
                     user.image = acc.avatar ?? user.image
+                    user.phone = acc.phone ?? null
                 }
                 return true
             } catch (err) {
@@ -83,13 +84,14 @@ const authConfig = {
             if (user?.email) {
                 const acc = await prisma.account.findUnique({
                     where: { email: user.email },
-                    select: { id: true, role: true, avatar: true, name: true },
+                    select: { id: true, role: true, avatar: true, name: true, phone: true },
                 })
                 if (acc) {
                     token.role = acc.role
                     token.guestId = acc.id
                     // đồng bộ các field chuẩn của next-auth
                     token.name = acc.name ?? token.name
+                    token.phone = acc.phone ?? null
                     token.picture = acc.avatar ?? token.picture
                 }
                 return token
@@ -99,11 +101,12 @@ const authConfig = {
             if (!token?.role && token?.email) {
                 const acc = await prisma.account.findUnique({
                     where: { email: token.email },
-                    select: { id: true, role: true },
+                    select: { id: true, role: true, phone: true },
                 })
                 if (acc) {
                     token.role = acc.role
                     token.guestId = acc.id
+                    token.phone = acc.phone ?? null
                 }
             }
             return token
@@ -113,6 +116,7 @@ const authConfig = {
             if (session.user) {
                 session.user.role = token.role
                 session.user.guestId = token.guestId
+                session.user.phone = token.phone ?? null
             }
             return session
         },

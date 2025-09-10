@@ -10,6 +10,9 @@ importers:
             '@heroicons/react':
                 specifier: ^2.2.0
                 version: 2.2.0(react@18.3.1)
+            '@payos/node':
+                specifier: ^2.0.2
+                version: 2.0.2
             '@prisma/client':
                 specifier: ^6.14.0
                 version: 6.14.0(prisma@6.14.0(typescript@5.9.2))(typescript@5.9.2)
@@ -753,6 +756,12 @@ packages:
         resolution:
             {
                 integrity: sha512-6oclG6Y3PiDFcoyk8srjLfVKyMfVCKJ27JwNPViuXziFpmdz+MZnZN/aKY0JGXgYuO/VghU0jcOAZgWXZ1Dmrw==,
+            }
+
+    '@payos/node@2.0.2':
+        resolution:
+            {
+                integrity: sha512-tzvBsjuzKY3BURt/+pVHwHSNAWiev4q2nlWff95kKKup6NDlvLS35TVNZB2WlEE8cPm7HmeHUoD8FDbTL2rVZw==,
             }
 
     '@pkgjs/parseargs@0.11.0':
@@ -7178,6 +7187,8 @@ snapshots:
     '@open-draft/until@2.1.0': {}
 
     '@panva/hkdf@1.2.1': {}
+
+    '@payos/node@2.0.2': {}
 
     '@pkgjs/parseargs@0.11.0':
         optional: true
