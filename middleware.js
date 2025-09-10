@@ -19,13 +19,19 @@ export default auth((req) => {
         }
     }
 
+    // Redirect từ "/" sang "/home"
     if (pathname === '/') {
         return NextResponse.redirect(new URL('/home', req.url))
+    }
+
+    // Redirect từ "/account" sang "/account/profile"
+    if (pathname === '/account') {
+        return NextResponse.redirect(new URL('/account/profile', req.url))
     }
 
     return NextResponse.next()
 })
 
 export const config = {
-    matcher: ['/', '/admin/:path*', '/api/admin/:path*'],
+    matcher: ['/', '/admin/:path*', '/api/admin/:path*', '/account'],
 }
