@@ -19,6 +19,9 @@ const poppins = Poppins({
 export const metadata = {
     title: 'Boutique',
     description: 'Thiên đường của thời trang',
+    icons: {
+        icon: '/favicon.ico',
+    },
 }
 
 export default function RootLayout({ children }) {
