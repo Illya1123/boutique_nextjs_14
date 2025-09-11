@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 import OrderSummary from '@/app/_components/payment/OrderSummary'
 import PaymentForm from '@/app/_components/payment/PaymentForm'
@@ -35,8 +36,6 @@ export default function PaymentClient() {
         return subtotal
     }, [subtotal, selectedMethodId])
 
-    // kiểm tra đăng nhập: nếu yêu cầu đăng nhập cho payment, giữ đoạn này.
-    // nếu /payment cho phép guest checkout, bỏ khối useEffect dưới.
     useEffect(() => {
         if (status === 'unauthenticated' && !session && !userStore) {
             router.push('/login')
@@ -44,10 +43,40 @@ export default function PaymentClient() {
     }, [status, session, userStore, router])
 
     useEffect(() => {
-        fetch('/api/payment-methods')
-            .then((r) => r.json())
-            .then((data) => setMethods(data?.methods ?? []))
-            .catch(() => setMethods([]))
+        const controller = new AbortController()
+
+        const fetchMethods = async () => {
+            try {
+                setLoading(true)
+                const res = await axios.get('/api/payment-methods', {
+                    params: { ts: Date.now() },
+                    headers: { 'Cache-Control': 'no-store' },
+                    signal: controller.signal,
+                    transitional: { clarifyTimeoutError: true },
+                })
+                setMethods(res?.data?.methods ?? [])
+            } catch (err) {
+                setMethods([])
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchMethods()
+
+        const onPageShow = (e) => {
+            fetchMethods()
+        }
+        const onFocus = () => fetchMethods()
+
+        window.addEventListener('pageshow', onPageShow)
+        window.addEventListener('focus', onFocus)
+
+        return () => {
+            controller.abort()
+            window.removeEventListener('pageshow', onPageShow)
+            window.removeEventListener('focus', onFocus)
+        }
     }, [])
 
     const onPaymentChange = (e) => {
@@ -63,7 +92,6 @@ export default function PaymentClient() {
             <h1 className="mb-6 text-2xl font-semibold">Thanh toán</h1>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {/* Tóm tắt đơn hàng thời trang */}
                 <OrderSummary
                     cartItems={cartItems}
                     subtotal={subtotal}
@@ -72,7 +100,6 @@ export default function PaymentClient() {
                     selectedMethodId={selectedMethodId}
                 />
 
-                {/* Form thanh toán */}
                 <PaymentForm
                     cartItems={cartItems}
                     session={session}
@@ -85,7 +112,6 @@ export default function PaymentClient() {
                     setLoading={setLoading}
                     message={message}
                     setMessage={setMessage}
-                    // Bạn có thể truyền thêm props dành cho boutique (ghi chú quà tặng, gói quà, địa chỉ giao nhanh...)
                 />
             </div>
         </div>

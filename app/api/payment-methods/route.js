@@ -54,13 +54,27 @@ const prisma = new PrismaClient()
  *           type: boolean
  *           example: true
  */
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
+
 export async function GET() {
     try {
         const methods = await prisma.paymentMethod.findMany({
             where: { is_active: true },
             orderBy: { id: 'asc' },
         })
-        return NextResponse.json({ methods })
+
+        return NextResponse.json(
+            { methods },
+            {
+                headers: {
+                    'Cache-Control': 'no-store, no-cache, max-age=0, must-revalidate',
+                    Pragma: 'no-cache',
+                    Expires: '0',
+                },
+            }
+        )
     } catch (err) {
         console.error('Get payment methods error:', err)
         return NextResponse.json({ message: 'Lỗi server' }, { status: 500 })
