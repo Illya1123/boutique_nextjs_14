@@ -106,6 +106,9 @@ model Order {
   customer      Account?      @relation(fields: [customer_id], references: [id], onUpdate: Cascade, onDelete: SetNull)
   paymentMethod PaymentMethod @relation(fields: [payment_method_id], references: [id])
   orderItems    OrderItem[]
+
+  @@index([status])
+  @@index([status, date])
 }
 
 model OrderItem {

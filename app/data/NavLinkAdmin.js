@@ -2,6 +2,8 @@ import {
     DocumentChartBarIcon,
     BuildingStorefrontIcon,
     DocumentIcon,
+    ShoppingCartIcon,
+    Cog6ToothIcon,
 } from '@heroicons/react/24/solid'
 
 const navLinks = [
@@ -24,6 +26,16 @@ const navLinks = [
         name: 'Blog',
         href: '/admin/blogs',
         icon: <DocumentIcon className="h-5 w-5 text-primary-600" />,
+    },
+    {
+        name: 'Orders',
+        href: '/admin/orders',
+        icon: <ShoppingCartIcon className="h-5 w-5 text-primary-600" />,
+    },
+    {
+        name: 'Setting',
+        href: '/admin/setting',
+        icon: <Cog6ToothIcon className="h-5 w-5 text-primary-600" />,
     },
 ]
 
