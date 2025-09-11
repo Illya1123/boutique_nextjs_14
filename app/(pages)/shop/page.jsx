@@ -1,22 +1,41 @@
-'use client'
+import ShopPageClient from './ShopPageClient'
 
-import SidebarFilter from './SidebarFilter'
-import { useFetchData } from '@/hooks/useFetchData'
+export const metadata = {
+    title: 'Cửa hàng | Boutique - Quần áo & Thời trang',
+    description:
+        'Khám phá bộ sưu tập quần áo và phụ kiện thời trang tại Boutique. Đa dạng mẫu mã, phong cách hiện đại, chất lượng cao.',
+    keywords: [
+        'Boutique',
+        'shop quần áo',
+        'cửa hàng thời trang',
+        'phụ kiện thời trang',
+        'mua sắm online',
+    ],
+    openGraph: {
+        type: 'website',
+        url: 'https://boutique.vn/shop',
+        title: 'Cửa hàng | Boutique - Quần áo & Thời trang',
+        description:
+            'Khám phá bộ sưu tập quần áo và phụ kiện thời trang tại Boutique. Đa dạng mẫu mã, phong cách hiện đại, chất lượng cao.',
+        siteName: 'Boutique',
+        images: [
+            {
+                url: '/favicon.ico', 
+                width: 1200,
+                height: 630,
+                alt: 'Cửa hàng thời trang Boutique',
+            },
+        ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Cửa hàng | Boutique - Quần áo & Thời trang',
+        description:
+            'Khám phá bộ sưu tập quần áo và phụ kiện thời trang tại Boutique. Đa dạng mẫu mã, phong cách hiện đại, chất lượng cao.',
+        images: ['/favicon.ico'],
+    },
+}
 
 export default function ShopPage() {
-    const { data: products, loading, error } = useFetchData('/api/products')
-
-    if (loading) {
-        return <p className="p-4">Đang tải sản phẩm...</p>
-    }
-
-    if (error) {
-        return <p className="p-4 text-red-600">{error}</p>
-    }
-
-    return (
-        <section className="flex">
-            <SidebarFilter products={products.products} />
-        </section>
-    )
+    return <ShopPageClient />
 }

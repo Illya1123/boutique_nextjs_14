@@ -1,29 +1,32 @@
-'use client'
-import AnswerTheQuestion from '@/app/_components/Faq/AnswerTheQuestion'
-import { useFetchData } from '@/hooks/useFetchData'
+import FaqClient from './FaqClient'
 
-function Faq() {
-    const { data: faqData, loading, error } = useFetchData('/data_faq.json')
-
-    if (loading) {
-        return <p className="text-center">Đang tải dữ liệu...</p>
-    }
-
-    if (error) {
-        return <p className="text-center text-red-500">{error}</p>
-    }
-
-    return (
-        <div className="min-h-screen px-4 py-16 bg-gray-50 md:px-20">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="mb-12 text-4xl font-bold text-center text-gray-800">
-                    Câu hỏi thường gặp
-                </h1>
-
-                <AnswerTheQuestion data={faqData} />
-            </div>
-        </div>
-    )
+export const metadata = {
+    title: 'Câu hỏi thường gặp | Boutique - Thời trang & Phụ kiện',
+    description:
+        'Giải đáp nhanh các câu hỏi thường gặp về mua hàng, thanh toán, vận chuyển và đổi trả tại Boutique.',
+    alternates: { canonical: '/faq' },
+    openGraph: {
+        type: 'website',
+        url: 'https://boutique.vn/faq',
+        title: 'Câu hỏi thường gặp | Boutique',
+        description:
+            'Giải đáp nhanh các câu hỏi thường gặp về mua hàng, thanh toán, vận chuyển và đổi trả tại Boutique.',
+        siteName: 'Boutique',
+        images: [{ url: '/favicon.ico', width: 1200, height: 630, alt: 'FAQ Boutique' }],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Câu hỏi thường gặp | Boutique',
+        description: 'Giải đáp nhanh các câu hỏi thường gặp tại Boutique.',
+        images: ['/favicon.ico'],
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, maxSnippet: -1, maxImagePreview: 'large' },
+    },
 }
 
-export default Faq
+export default function FaqPage() {
+    return <FaqClient />
+}
