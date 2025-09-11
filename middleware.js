@@ -14,10 +14,11 @@ export default auth((req) => {
     if (isAdminRoute && !req.auth) {
         return NextResponse.redirect(new URL('/login', req.url))
     }
-    if (isPaymentRoute && !req.auth) {
-        // /payment bắt buộc đăng nhập
-        return NextResponse.redirect(new URL('/login', req.url))
-    }
+
+    // ⛔️ BỎ CHẶN /payment: cho phép vào tự do (giống /account)
+    // if (isPaymentRoute && !req.auth) {
+    //   return NextResponse.redirect(new URL('/login', req.url))
+    // }
 
     // Lấy role từ token trước, user sau (phòng khi session chưa hydrate)
     const role = req.auth?.token?.role ?? req.auth?.user?.role
@@ -58,7 +59,6 @@ export default auth((req) => {
         // Đã có cookie -> nếu quá 30s mà vẫn chưa đăng nhập => out về /home
         if (now - startedAt > CHECKOUT_TIMEOUT_MS) {
             const res = NextResponse.redirect(new URL('/home', req.url))
-            // Xóa cookie đếm thời gian
             res.cookies.delete(CHECKOUT_COOKIE, { path: '/' })
             return res
         }
