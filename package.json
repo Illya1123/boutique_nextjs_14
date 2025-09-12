@@ -44,6 +44,7 @@
         "remark": "^15.0.1",
         "remark-html": "^16.0.1",
         "shadcn": "^2.10.0",
+        "styled-jsx": "^5.1.7",
         "swagger-jsdoc": "^6.2.8",
         "swagger-ui-express": "^5.0.1",
         "swagger-ui-react": "^5.27.1",
